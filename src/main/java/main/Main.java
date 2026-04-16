@@ -18,6 +18,7 @@ public class Main {
                 int choice = Validation.getChoice(sc.nextLine(), 1, 5);
                 switch (choice) {
                     case 1:
+                        // Add new students continuously until the user stops
                         while (true) {
                             try {
                                 StudentRequestDTO dto = new StudentRequestDTO();
@@ -36,6 +37,7 @@ public class Main {
 
                                 controller.addStudent(dto);
 
+                                // Prompt to continue if total student enrollments exceed 10
                                 if (controller.getStudentSize() >= 10) {
                                     System.out.print(Message.INPUT_CONTINUE);
                                     String c = Validation.getYN(sc.nextLine());
@@ -49,11 +51,13 @@ public class Main {
                         }
                         break;
                     case 2:
+                        // Search for a student by name
                         System.out.print(Message.INPUT_SEARCH);
                         String input = Validation.getString(sc.nextLine());
                         controller.searchStudent(input);
                         break;
                     case 3:
+                        // Update or delete a student record by ID
                         StudentRequestDTO findDto = new StudentRequestDTO();
                         System.out.print(Message.INPUT_FIND_ID);
                         String id = Validation.getString(sc.nextLine());
@@ -80,9 +84,11 @@ public class Main {
                         }
                         break;
                     case 4:
+                        // Generate and display a counting report
                         controller.report();
                         break;
                     case 5:
+                        // Exit the application
                         return;
                 }
             } catch (Exception e) {

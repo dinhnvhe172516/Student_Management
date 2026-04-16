@@ -13,10 +13,12 @@ public class StudentService {
         this.repository = new StudentRepository();
     }
 
+    // Get the current total number of student courses
     public int getStudentSize() {
         return repository.size();
     }
 
+    // Check for duplicates before adding a new student to the system
     public void addStudent(StudentRequestDTO requestDTO) throws Exception {
         if (repository.isDuplicate(requestDTO)) {
             throw new Exception(Message.DUPLICATE);
@@ -24,6 +26,7 @@ public class StudentService {
         repository.addStudent(requestDTO);
     }
 
+    // Verify existence of a student before performing an update
     public void updateStudent(StudentRequestDTO requestDTO) throws Exception {
         if (!repository.isExistStudent(requestDTO.getId())) {
             throw new Exception(Message.NO_STUDENT_AVAILABLE);
@@ -31,6 +34,7 @@ public class StudentService {
         repository.updateStudent(requestDTO);
     }
 
+    // Ensure a student exists before allowing deletion
     public void deleteStudent(StudentRequestDTO requestDTO) throws Exception {
         if (!repository.isExistStudent(requestDTO.getId())) {
             throw new Exception(Message.NO_STUDENT_AVAILABLE);
@@ -38,6 +42,7 @@ public class StudentService {
         repository.deleteStudent(requestDTO);
     }
 
+    // Return a list of students matching the search, throwing exceptions if not found
     public List<StudentResponseDTO> searchStudent(String input) throws Exception {
         if (repository.isEmpty()) {
             throw new Exception(Message.DATABASE_EMPTY);
@@ -49,6 +54,7 @@ public class StudentService {
         return result;
     }
 
+    // Fetch the counted report, checking if the database is initially empty
     public List<StudentResponseDTO> report() throws Exception {
         if (repository.isEmpty()) {
             throw new Exception(Message.DATABASE_EMPTY);

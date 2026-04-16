@@ -52,6 +52,7 @@ public class StudentRepository {
         list.add(s9);
     }
 
+    // Check if the student is already enrolled in the specific course and semester
     public boolean isDuplicate(StudentRequestDTO requestDTO) {
         for (Student s : list) {
             if (s.getId().equalsIgnoreCase(requestDTO.getId())) {
@@ -66,6 +67,7 @@ public class StudentRepository {
         return false;
     }
 
+    // Add a new student or append a course to an existing student's record
     public void addStudent(StudentRequestDTO requestDTO) {
         for (Student s : list) {
             if (s.getId().equalsIgnoreCase(requestDTO.getId())) {
@@ -78,6 +80,7 @@ public class StudentRepository {
         list.add(newStudent);
     }
 
+    // Check if a student with the given ID exists in the repository
     public boolean isExistStudent(String id) {
         for (Student s : list) {
             if (s.getId().equalsIgnoreCase(id)) return true;
@@ -85,6 +88,7 @@ public class StudentRepository {
         return false;
     }
 
+    // Update a student's name and their primary course record
     public void updateStudent(StudentRequestDTO updateDto) {
         for (Student s : list) {
             if (s.getId().equalsIgnoreCase(updateDto.getId())) {
@@ -100,6 +104,7 @@ public class StudentRepository {
         }
     }
 
+    // Delete a student along with all their enrolled courses
     public void deleteStudent(StudentRequestDTO deleteDto) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getId().equalsIgnoreCase(deleteDto.getId())) {
@@ -109,6 +114,7 @@ public class StudentRepository {
         }
     }
 
+    // Search for students by partial name match and return sorted results
     public List<StudentResponseDTO> searchStudent(String name) {
         List<StudentResponseDTO> result = new ArrayList<>();
         for (Student s : list) {
@@ -122,6 +128,7 @@ public class StudentRepository {
         return result;
     }
 
+    // Aggregate the data to report total distinct courses taken by each student
     public List<StudentResponseDTO> report() {
         Map<String, Integer> map = new HashMap<>(); // key: "name|courseName"
         for (Student s : list) {
@@ -144,10 +151,12 @@ public class StudentRepository {
         return result;
     }
 
+    // Check if the overall database is devoid of any student enrollments
     public boolean isEmpty() {
         return list.isEmpty();
     }
 
+    // Calculate the total number of course enrollments mapped across all students
     public int size() {
         int count = 0;
         for (Student s : list) {
