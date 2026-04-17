@@ -1,12 +1,19 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package dto;
 
+/**
+ *
+ * @author Admin
+ */
 public class StudentRequestDTO {
-    private String id;
-    private String name;
+    private String id, name;
     private CourseDTO course;
+    
 
     public StudentRequestDTO() {
-        this.course = new CourseDTO();
     }
 
     public StudentRequestDTO(String id, String name, CourseDTO course) {
@@ -15,10 +22,28 @@ public class StudentRequestDTO {
         this.course = course;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public CourseDTO getCourse() { return course; }
-    public void setCourse(CourseDTO course) { this.course = course; }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public CourseDTO getCourse() {
+        return course;
+    }
+
+    public void setCourse(CourseDTO course) {
+        this.course = course;
+    }
+    
 }
