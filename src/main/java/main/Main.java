@@ -23,31 +23,67 @@ public class Main {
 
                 switch (choice) {
                     case 1:
+                        case1Loop:
                         while (true) {
-                            try {
-                                StudentRequestDTO requestDTO = new StudentRequestDTO();
-                                CourseDTO courseDTO = new CourseDTO();
+                            StudentRequestDTO requestDTO = new StudentRequestDTO();
+                            CourseDTO courseDTO = new CourseDTO();
 
-                                System.out.print(Message.INPUT_ID);
-                                requestDTO.setId(Validation.getString(sc.nextLine()));
-                                
-                                System.out.print(Message.INPUT_NAME);
-                                requestDTO.setName(Validation.getString(sc.nextLine()));
-                                
-                                System.out.print(Message.INPUT_SEMESTER);
-                                courseDTO.setSemester(Validation.getString(sc.nextLine()));
-                                
-                                System.out.print(Message.INPUT_COURSE);
-                                courseDTO.setCourse(Validation.getCourse(sc.nextLine()));
-                                
+                            while (true) {
+                                try {
+                                    System.out.print(Message.INPUT_ID);
+                                    requestDTO.setId(Validation.getString(sc.nextLine()));
+                                    break;
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+
+                            while (true) {
+                                try {
+                                    System.out.print(Message.INPUT_NAME);
+                                    requestDTO.setName(Validation.getString(sc.nextLine()));
+                                    break;
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+
+                            while (true) {
+                                try {
+                                    System.out.print(Message.INPUT_SEMESTER);
+                                    courseDTO.setSemester(Validation.getString(sc.nextLine()));
+                                    break;
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+
+                            while (true) {
+                                try {
+                                    System.out.print(Message.INPUT_COURSE);
+                                    courseDTO.setCourse(Validation.getCourse(sc.nextLine()));
+                                    break;
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+
+                            try {
                                 requestDTO.setCourse(courseDTO);
                                 controller.addStudent(requestDTO);
 
-                                if (controller.getStudentSize() >= 10) {
-                                    System.out.print(Message.INPUT_CONTINUE);
-                                    String check = Validation.checkYesOrNo(sc.nextLine());
-                                    if (check.equalsIgnoreCase("N")) {
-                                        break;
+                                if (controller.getStudentSize() >= 2) {
+                                    while (true) {
+                                        try {
+                                            System.out.print(Message.INPUT_CONTINUE);
+                                            String check = Validation.checkYesOrNo(sc.nextLine());
+                                            if (check.equalsIgnoreCase("N")) {
+                                                break case1Loop; 
+                                            }
+                                            break;
+                                        } catch (Exception e) {
+                                            System.out.println(e.getMessage());
+                                        }
                                     }
                                 }
                             } catch (Exception e) {
@@ -62,25 +98,62 @@ public class Main {
                         break;
                     case 3:
                         try {
-                            System.out.print(Message.INPUT_FIND_ID);
-                            String id = Validation.getString(sc.nextLine());
+                            String id = "";
+                            while (true) {
+                                try {
+                                    System.out.print(Message.INPUT_FIND_ID);
+                                    id = Validation.getString(sc.nextLine());
+                                    break;
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());
+                                }
+                            }
 
-                            System.out.print(Message.INPUT_UD);
-                            String ud = Validation.checkUpdateOrDelete(sc.nextLine());
-                            
+                            String ud = "";
+                            while (true) {
+                                try {
+                                    System.out.print(Message.INPUT_UD);
+                                    ud = Validation.checkUpdateOrDelete(sc.nextLine());
+                                    break;
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+
                             StudentRequestDTO findDto = new StudentRequestDTO();
                             findDto.setId(id);
 
                             if (ud.equalsIgnoreCase("U")) {
                                 findDto.setCourse(new CourseDTO());
-                                System.out.print(Message.INPUT_NAME);
-                                findDto.setName(Validation.getString(sc.nextLine()));
+                                while (true) {
+                                    try {
+                                        System.out.print(Message.INPUT_NAME);
+                                        findDto.setName(Validation.getString(sc.nextLine()));
+                                        break;
+                                    } catch (Exception e) {
+                                        System.out.println(e.getMessage());
+                                    }
+                                }
 
-                                System.out.print(Message.INPUT_SEMESTER);
-                                findDto.getCourse().setSemester(Validation.getString(sc.nextLine()));
+                                while (true) {
+                                    try {
+                                        System.out.print(Message.INPUT_SEMESTER);
+                                        findDto.getCourse().setSemester(Validation.getString(sc.nextLine()));
+                                        break;
+                                    } catch (Exception e) {
+                                        System.out.println(e.getMessage());
+                                    }
+                                }
 
-                                System.out.print(Message.INPUT_COURSE);
-                                findDto.getCourse().setCourse(Validation.getCourse(sc.nextLine()));
+                                while (true) {
+                                    try {
+                                        System.out.print(Message.INPUT_COURSE);
+                                        findDto.getCourse().setCourse(Validation.getCourse(sc.nextLine()));
+                                        break;
+                                    } catch (Exception e) {
+                                        System.out.println(e.getMessage());
+                                    }
+                                }
 
                                 controller.updateStudent(findDto);
                                 System.out.println(Message.UPDATE_SUCCESS);
@@ -89,7 +162,7 @@ public class Main {
                                 System.out.println(Message.DELETE_SUCCESS);
                             }
                         } catch (Exception e) {
-                            System.out.println( e.getMessage());
+                            System.out.println(e.getMessage());
                         }
                         break;
                     case 4:

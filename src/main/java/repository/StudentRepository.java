@@ -6,8 +6,6 @@ package repository;
 
 import dto.CourseDTO;
 import dto.StudentRequestDTO;
-import dto.StudentResponseDTO;
-import java.net.ResponseCache;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,14 +48,11 @@ public class StudentRepository {
         return list.size();
     }
 
-    public List<StudentResponseDTO> searchStudent(String name) {
-        List<StudentResponseDTO> result = new ArrayList<>();
+    public List<Student> searchStudent(String name) {
+        List<Student> result = new ArrayList<>();
         for (Student s : list) {
             if (s.getName().toLowerCase().contains(name.toLowerCase())) {
-                for (Course c : s.getCourses()) {
-                    result.add(new StudentResponseDTO(s.getId(), s.getName(),
-                            new CourseDTO(c.getSemester(), c.getCourseName())));
-                }
+                result.add(s);
             }
         }
         result.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
@@ -102,25 +97,14 @@ public class StudentRepository {
         }
     }
     
-    public List<StudentResponseDTO> reportList(){
+    public Map<String, Integer> reportList() {
         Map<String, Integer> map = new HashMap<>();
-        for(Student s : list){
-            for(Course c : s.getCourses()){
+        for (Student s : list) {
+            for (Course c : s.getCourses()) {
                 String key = s.getName() + " | " + c.getCourseName();
                 map.put(key, map.getOrDefault(key, 0) + 1);
             }
         }
-        List<StudentResponseDTO> result = new ArrayList<>();
-        for(Map.Entry<String, Integer> entry : map.entrySet()){
-            String [] parts = entry.getKey().split("\\|");
-            StudentResponseDTO dto = new StudentResponseDTO();
-            dto.setName(parts[0]);
-            CourseDTO cour = new CourseDTO();
-            cour.setCourse(parts[1]);
-            dto.setCourse(cour);
-            dto.setTotalCourse(entry.getValue());
-            result.add(dto);
-        }
-        return result;
+        return map;
     }
 }

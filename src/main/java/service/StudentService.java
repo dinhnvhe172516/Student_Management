@@ -5,9 +5,14 @@
 package service;
 
 import constants.Message;
+import dto.CourseDTO;
 import dto.StudentRequestDTO;
 import dto.StudentResponseDTO;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import model.Course;
+import model.Student;
 import repository.StudentRepository;
 
 /**
@@ -29,13 +34,21 @@ public class StudentService {
         repository.addStudent(request);
     }
     
-    public List<StudentResponseDTO> searchStudent(String input) throws Exception{
-        if(repository.isEmpty()){
+    public List<StudentResponseDTO> searchStudent(String input) throws Exception {
+        if (repository.isEmpty()) {
             throw new Exception(Message.DATABASE_EMPTY);
         }
-        List<StudentResponseDTO> result = repository.searchStudent(input);
-        if(result == null || result.isEmpty()){
+        List<Student> students = repository.searchStudent(input);
+        if (students == null || students.isEmpty()) {
             throw new Exception(Message.NO_STUDENT_AVAILABLE);
+        }
+
+        List<StudentResponseDTO> result = new ArrayList<>();
+        for (Student s : students) {
+            for (Course c : s.getCourses()) {
+                result.add(new StudentResponseDTO(s.getId(), s.getName(),
+                        new CourseDTO(c.getSemester(), c.getCourseName())));
+            }
         }
         return result;
     }
@@ -54,10 +67,22 @@ public class StudentService {
         repository.deleteStudent(requestDTO);
     }
     
-    public List<StudentResponseDTO> reportList() throws Exception{
-        if(repository.isEmpty()){
+    public List<StudentResponseDTO> reportList() throws Exception {
+        if (repository.isEmpty()) {
             throw new Exception(Message.DATABASE_EMPTY);
         }
-        return repository.reportList();
+        Map<String, Integer> reportMap = repository.reportList();
+        List<StudentResponseDTO> result = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : reportMap.entrySet()) {
+            String[] parts = entry.getKey().split("\\|");
+            StudentResponseDTO dto = new StudentResponseDTO();
+            dto.setName(parts[0].trim());
+            CourseDTO cour = new CourseDTO();
+            cour.setCourse(parts[1].trim());
+            dto.setCourse(cour);
+            dto.setTotalCourse(entry.getValue());
+            result.add(dto);
+        }
+        return result;
     }
 }
