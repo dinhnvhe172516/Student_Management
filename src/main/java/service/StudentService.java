@@ -26,14 +26,38 @@ public class StudentService {
         this.repository = new StudentRepository();
     }
     
+    /**
+     * Get the total number of students from repository.
+     * @return Number of students
+     */
     public int getStudentSize(){
         return repository.studentSize();
     }
     
+    /**
+     * Add a student or course enrollment.
+     * @param request The student/course data
+     * @throws Exception if validation fails (handled in main)
+     */
     public void addStudent(StudentRequestDTO request) throws Exception {
         repository.addStudent(request);
     }
+
+    /**
+     * Check if a student with the given ID exists.
+     * @param id Student ID to check
+     * @return true if exists
+     */
+    public boolean isExistedStudent(String id) {
+        return repository.isExistedStudent(id);
+    }
     
+    /**
+     * Search for students by name and return a list of response DTOs.
+     * @param input Name fragment to search
+     * @return List of student response data
+     * @throws Exception if database is empty or no students found
+     */
     public List<StudentResponseDTO> searchStudent(String input) throws Exception {
         if (repository.isEmpty()) {
             throw new Exception(Message.DATABASE_EMPTY);
@@ -53,6 +77,11 @@ public class StudentService {
         return result;
     }
     
+    /**
+     * Update a student by ID (adds a new course).
+     * @param requestDTO The update data
+     * @throws Exception if student ID is not found
+     */
     public void updateStudent(StudentRequestDTO requestDTO) throws Exception{
         if(!repository.isExistedStudent(requestDTO.getId())){
             throw new Exception(Message.NO_STUDENT_AVAILABLE);
@@ -60,6 +89,11 @@ public class StudentService {
         repository.updateStudent(requestDTO);
     }
     
+    /**
+     * Delete a student by ID.
+     * @param requestDTO The student ID to delete
+     * @throws Exception if student ID is not found
+     */
     public void deleteStudent(StudentRequestDTO requestDTO) throws Exception{
         if(!repository.isExistedStudent(requestDTO.getId())){
             throw new Exception(Message.NO_STUDENT_AVAILABLE);
@@ -67,6 +101,11 @@ public class StudentService {
         repository.deleteStudent(requestDTO);
     }
     
+    /**
+     * Generate the report list for all students.
+     * @return List of report data
+     * @throws Exception if database is empty
+     */
     public List<StudentResponseDTO> reportList() throws Exception {
         if (repository.isEmpty()) {
             throw new Exception(Message.DATABASE_EMPTY);

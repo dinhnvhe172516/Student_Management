@@ -21,10 +21,18 @@ public class StudentRepository {
 
     private List<Student> list = new ArrayList<>();
 
+    /**
+     * Get the list of all students.
+     * @return List of students
+     */
     public List<Student> getList() {
         return list;
     }
 
+    /**
+     * Add a new student or add a new course to an existing student by ID.
+     * @param request Student information and course details
+     */
     public void addStudent(StudentRequestDTO request) {
         for (Student s : list) {
             if (s.getId().equalsIgnoreCase(request.getId())) {
@@ -44,10 +52,19 @@ public class StudentRepository {
         list.add(newStudent);
     }
 
+    /**
+     * Get the total number of unique students.
+     * @return count of students
+     */
     public int studentSize() {
         return list.size();
     }
 
+    /**
+     * Search for students by name (partial match) and sort the results.
+     * @param name Name to search for
+     * @return Filtered and sorted list of students
+     */
     public List<Student> searchStudent(String name) {
         List<Student> result = new ArrayList<>();
         for (Student s : list) {
@@ -59,10 +76,19 @@ public class StudentRepository {
         return result;
     }
 
+    /**
+     * Check if the repository is empty.
+     * @return true if no students exist
+     */
     public boolean isEmpty() {
         return list.isEmpty();
     }
 
+    /**
+     * Check if a student exists by their ID.
+     * @param id Student ID
+     * @return true if found
+     */
     public boolean isExistedStudent(String id) {
         for (Student s : list) {
             if (s.getId().equalsIgnoreCase(id)) {
@@ -72,31 +98,37 @@ public class StudentRepository {
         return false;
     }
 
+    /**
+     * Update an existing student by adding a new course record.
+     * @param requestDTO Update details containing ID and new course info
+     */
     public void updateStudent(StudentRequestDTO requestDTO) {
         for (Student s : list) {
             if (s.getId().equalsIgnoreCase(requestDTO.getId())) {
-                s.setName(requestDTO.getName());
-                if (!s.getCourses().isEmpty()) {
-                    s.getCourses().get(0).setSemester(requestDTO.getCourse().getSemester());
-                    s.getCourses().get(0).setCourseName(requestDTO.getCourse().getCourse());
-                } else {
-                    s.getCourses().add(new Course(requestDTO.getCourse().getSemester(),
-                            requestDTO.getCourse().getCourse()));
-                }
+                s.getCourses().add(new Course(requestDTO.getCourse().getSemester(),
+                        requestDTO.getCourse().getCourse()));
                 break;
             }
         }
     }
-    
-    public void deleteStudent(StudentRequestDTO requestDTO){
+
+    /**
+     * Delete a student by their ID.
+     * @param requestDTO Request containing student ID to delete
+     */
+    public void deleteStudent(StudentRequestDTO requestDTO) {
         for (int i = 0; i < list.size(); i++) {
-            if(list.get(i).getId().equalsIgnoreCase(requestDTO.getId())){
+            if (list.get(i).getId().equalsIgnoreCase(requestDTO.getId())) {
                 list.remove(i);
                 break;
             }
         }
     }
-    
+
+    /**
+     * Generate a report map containing student name, course, and total counts.
+     * @return Map with reporting data
+     */
     public Map<String, Integer> reportList() {
         Map<String, Integer> map = new HashMap<>();
         for (Student s : list) {
@@ -108,3 +140,5 @@ public class StudentRepository {
         return map;
     }
 }
+
+
